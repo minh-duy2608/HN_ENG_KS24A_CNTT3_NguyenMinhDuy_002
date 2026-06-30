@@ -283,7 +283,7 @@ Phân tích nghiệp vụ phòng khám và xác định các Entity cùng thuộ
 Sinh mã Plantuml cho sơ đồ ERD dựa trên các Entity của hệ thống phòng khám.
 ```
 
-### Mã Mermaid
+### Mã Plantuml
 
 ```plantuml
 @startuml
