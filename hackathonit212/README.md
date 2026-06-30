@@ -280,35 +280,120 @@ Phân tích nghiệp vụ phòng khám và xác định các Entity cùng thuộ
 ### Prompt
 
 ```text
-Sinh mã Mermaid cho sơ đồ ERD dựa trên các Entity của hệ thống phòng khám.
+Sinh mã Plantuml cho sơ đồ ERD dựa trên các Entity của hệ thống phòng khám.
 ```
 
 ### Mã Mermaid
 
-```mermaid
-erDiagram
+```plantuml
+@startuml
+hide methods
+hide stereotypes
+skinparam classAttributeIconSize 0
 
-USER ||--|| ROLE : has
+entity Role {
+    +id : Long
+    +name : String
+}
 
-PATIENT ||--o{ APPOINTMENT : books
+entity User {
+    +id : Long
+    +fullName : String
+    +username : String
+    +password : String
+    +phone : String
+    +email : String
+}
 
-DOCTOR ||--o{ APPOINTMENT : receives
+entity Patient {
+    +id : Long
+    +memberLevel : String
+}
 
-APPOINTMENT ||--|| VISIT_RECORD : creates
+entity Doctor {
+    +id : Long
+    +specialization : String
+}
 
-VISIT_RECORD ||--|| INVOICE : generates
+entity Appointment {
+    +id : Long
+    +appointmentDate : DateTime
+    +status : String
+}
 
-INVOICE ||--|| PAYMENT : paid_by
+entity VisitRecord {
+    +id : Long
+    +visitDate : DateTime
+    +baseFee : Double
+}
 
-PATIENT ||--|| MEMBERSHIP : owns
+entity Service {
+    +id : Long
+    +serviceName : String
+    +price : Double
+}
 
-PATIENT ||--o{ QUEUE : waits
+entity Insurance {
+    +id : Long
+    +provider : String
+    +discountType : String
+}
 
-PATIENT }o--|| INSURANCE : uses
+entity Membership {
+    +id : Long
+    +level : String
+    +discount : Double
+}
 
-VISIT_RECORD }o--o{ SERVICE : includes
+entity Invoice {
+    +id : Long
+    +totalAmount : Double
+    +status : String
+}
 
-PATIENT ||--o{ NOTIFICATION : receives
+entity Payment {
+    +id : Long
+    +paymentMethod : String
+    +paymentStatus : String
+}
+
+entity Queue {
+    +id : Long
+    +queueNumber : Integer
+    +status : String
+}
+
+entity Notification {
+    +id : Long
+    +type : String
+    +message : String
+}
+
+Role ||--o{ User
+
+User ||--|| Patient
+User ||--|| Doctor
+
+Patient ||--o{ Appointment
+Doctor ||--o{ Appointment
+
+Appointment ||--|| VisitRecord
+
+VisitRecord }o--o{ Service
+
+VisitRecord ||--|| Invoice
+
+Invoice ||--|| Payment
+
+Patient ||--|| Membership
+
+Patient }o--|| Insurance
+
+Patient ||--o{ Queue
+
+Patient ||--o{ Notification
+
+@enduml
 ```
 
 Sơ đồ được render thành ảnh và lưu trong:
